@@ -67,6 +67,7 @@ class WalletForm extends Component {
               name="currencySelect"
               value={ currencySelect }
               onChange={ this.handleChange }
+              data-testid="currency-input"
             >
               {currencies.map((code) => (
                 <option key={ code } value={ code }>{ code }</option>
