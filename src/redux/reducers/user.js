@@ -17,7 +17,9 @@ const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case RECEIVE_USER_EMAIL: return {
     ...state,
-    email: action.user.email,
+    user: {
+      email: action.payload,
+    },
   };
   default: return state;
   }
