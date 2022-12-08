@@ -59,6 +59,7 @@ class Login extends Component {
                 name="inputEmail"
                 onChange={ this.handleChange }
                 data-testid="email-input"
+                placeholder="Email"
               />
             </label>
             <label htmlFor="input-user-password">
@@ -69,6 +70,7 @@ class Login extends Component {
                 name="inputPassword"
                 onChange={ this.handleChange }
                 data-testid="password-input"
+                placeholder="Senha"
               />
             </label>
             <button
