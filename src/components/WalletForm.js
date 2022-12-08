@@ -17,7 +17,7 @@ class WalletForm extends Component {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const json = await response.json();
     delete json.USDT;
-    const arrayJson = Object.values(json);
+    const arrayJson = Object.keys(json);
     dispatch(receiveCurrencies(arrayJson));
   }
 
@@ -68,7 +68,7 @@ class WalletForm extends Component {
               value={ currencySelect }
               onChange={ this.handleChange }
             >
-              {currencies.map(({ code }) => (
+              {currencies.map((code) => (
                 <option key={ code } value={ code }>{ code }</option>
               ))}
             </select>
@@ -94,6 +94,7 @@ class WalletForm extends Component {
               name="tagSelect"
               value={ tagSelect }
               onChange={ this.handleChange }
+              data-testid="tag-input"
             >
               <option value="Alimentação">Alimentação</option>
               <option value="Lazer">Lazer</option>
@@ -114,9 +115,7 @@ const mapStateToProps = (globalState) => ({
 
 WalletForm.propTypes = {
   dispatch: func.isRequired,
-  currencies: arrayOf(shape({
-    code: string.isRequired,
-  })).isRequired,
+  currencies: arrayOf(string).isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);
