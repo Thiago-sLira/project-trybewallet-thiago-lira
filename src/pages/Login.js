@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { func, shape } from 'prop-types';
 import { receiveUserEmail } from '../redux/actions/index';
 
 const SIX = 6;
@@ -86,10 +86,10 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+  history: shape({
+    push: func,
   }).isRequired,
-  dispatch: PropTypes.func.isRequired,
+  dispatch: func.isRequired,
 };
 
 export default connect()(Login);

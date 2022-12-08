@@ -2,7 +2,7 @@
 import { RECEIVE_USER_EMAIL } from '../actions/index';
 
 const INITIAL_STATE = {
-  email: '', // string que armazena o email da pessoa usuária
+  email: 'thiago@trybe.com', // string que armazena o email da pessoa usuária
 };
 
 const user = (state = INITIAL_STATE, action) => {
