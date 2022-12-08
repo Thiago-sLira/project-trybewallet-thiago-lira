@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class WalletForm extends Component {
   state = {
     valueExpenseInput: '',
+    descriptionExpenseInput: '',
   };
 
   handleChange = ({ target }) => {
@@ -13,19 +14,30 @@ class WalletForm extends Component {
   };
 
   render() {
-    const { valueExpenseInput } = this.state;
+    const { valueExpenseInput, descriptionExpenseInput } = this.state;
     return (
       <section>
         <fieldset>
           <form>
             <label htmlFor="input-value-expense">
               <input
-                type="text"
+                type="number"
                 id="input-value-expense"
                 value={ valueExpenseInput }
                 name="valueExpenseInput"
                 onChange={ this.handleChange }
-                placeholder="Valor da despesa"
+                data-testid="value-input"
+              />
+            </label>
+            <label htmlFor="input-description-expense">
+              <input
+                type="text"
+                id="input-description-expense"
+                value={ descriptionExpenseInput }
+                name="descriptionExpenseInput"
+                onChange={ this.handleChange }
+                data-testid="description-input"
+                placeholder="Descrição da despesa"
               />
             </label>
           </form>
