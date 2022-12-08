@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+const SIX = 6;
 class Login extends Component {
   state = {
     inputEmail: '',
@@ -11,7 +12,17 @@ class Login extends Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
-    });
+    }, this.handleInputsValidation);
+  };
+
+  handleInputsValidation = () => {
+    const { inputEmail, inputPassword } = this.state;
+    const verifyEmailInput = verifyEmail(inputEmail);
+    const verifyPasswordInput = inputPassword.length >= SIX;
+
+    if (verifyEmailInput && verifyPasswordInput) {
+      this.setState({ isButtonDisabled: false });
+    }
   };
 
   verifyEmail = (email) => {
