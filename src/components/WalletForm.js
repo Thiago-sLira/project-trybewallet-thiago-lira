@@ -5,8 +5,8 @@ import { receiveCurrencies } from '../redux/actions/index';
 
 class WalletForm extends Component {
   state = {
-    valueExpenseInput: '',
-    descriptionExpenseInput: '',
+    valueExpenseInput: '55',
+    descriptionExpenseInput: 'Funcionando',
     currencySelect: 'USD',
     methodSelect: 'Dinheiro',
     tagSelect: 'Alimentação',
@@ -33,26 +33,33 @@ class WalletForm extends Component {
     });
   };
 
-  getCurrencyValueSelect = async (currency) => {
-    const quotationsJson = await this.getQuotaionsExchangesAPI();
+  getCurrencyValueSelect = (currency, quotationsJson) => {
     const quotationsJsonArray = Object.values(quotationsJson);
-    console.log(quotationsJsonArray);
+    return quotationsJsonArray.find(({ code }) => code === currency).bid;
   };
 
-  buildingNewExpense = async () => {
+  buildingNewExpense = async (expenses) => {
     const { valueExpenseInput, descriptionExpenseInput,
       currencySelect, methodSelect, tagSelect } = this.state;
-    const { expenses } = this.props;
-    const getCurrency = await this.getCurrencyValueSelect(currencySelect);
-    console.log(getCurrency);
-    // return {
-    //   id: expenses.length === 0 ? 0 : expenses[expenses.length - 1],
-    // };
+
+    const quotationsJson = await this.getQuotaionsExchangesAPI();
+    const currencyValue = this.getCurrencyValueSelect(currencySelect, quotationsJson);
+
+    return ({
+      id: expenses.length === 0 ? 0 : expenses[expenses.length - 1] + 1,
+      value: valueExpenseInput,
+      description: descriptionExpenseInput,
+      currency: currencyValue,
+      method: methodSelect,
+      tag: tagSelect,
+      exchangesRates: quotationsJson,
+    });
   };
 
-  handleFormExpenseButtonClick = () => {
-    const { dispatch } = this.props;
-    const newExpense = this.buildingNewExpense();
+  handleFormExpenseButtonClick = async () => {
+    const { dispatch, expenses } = this.props;
+    const newExpense = await this.buildingNewExpense(expenses);
+    console.log(newExpense, expenses);
   };
 
   render() {

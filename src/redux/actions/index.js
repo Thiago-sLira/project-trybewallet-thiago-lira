@@ -11,5 +11,3 @@ export const receiveCurrencies = (currency) => ({
   type: RECEIVE_CURRENCIES,
   payload: currency,
 });
-
-// { currencies, expenses, editor, idToEdit }
