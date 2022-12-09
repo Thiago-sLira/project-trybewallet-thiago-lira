@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, arrayOf, shape, string } from 'prop-types';
+import { func, arrayOf, string, shape, number } from 'prop-types';
 import { connect } from 'react-redux';
 import { receiveCurrencies } from '../redux/actions/index';
 
@@ -14,18 +14,45 @@ class WalletForm extends Component {
 
   async componentDidMount() {
     const { dispatch } = this.props;
+    const quotationsJson = await this.getQuotaionsExchangesAPI();
+    const arrayJson = Object.keys(quotationsJson);
+    dispatch(receiveCurrencies(arrayJson));
+  }
+
+  getQuotaionsExchangesAPI = async () => {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const json = await response.json();
     delete json.USDT;
-    const arrayJson = Object.keys(json);
-    dispatch(receiveCurrencies(arrayJson));
-  }
+    return json;
+  };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
       [name]: value,
     });
+  };
+
+  getCurrencyValueSelect = async (currency) => {
+    const quotationsJson = await this.getQuotaionsExchangesAPI();
+    const quotationsJsonArray = Object.values(quotationsJson);
+    console.log(quotationsJsonArray);
+  };
+
+  buildingNewExpense = async () => {
+    const { valueExpenseInput, descriptionExpenseInput,
+      currencySelect, methodSelect, tagSelect } = this.state;
+    const { expenses } = this.props;
+    const getCurrency = await this.getCurrencyValueSelect(currencySelect);
+    console.log(getCurrency);
+    // return {
+    //   id: expenses.length === 0 ? 0 : expenses[expenses.length - 1],
+    // };
+  };
+
+  handleFormExpenseButtonClick = () => {
+    const { dispatch } = this.props;
+    const newExpense = this.buildingNewExpense();
   };
 
   render() {
@@ -104,19 +131,30 @@ class WalletForm extends Component {
               <option value="Saúde">Saúde</option>
             </select>
           </label>
+          <button
+            type="button"
+            onClick={ this.handleFormExpenseButtonClick }
+          >
+            Adicionar Despesa
+          </button>
         </form>
       </section>
     );
   }
 }
 
-const mapStateToProps = (globalState) => ({
-  currencies: globalState.wallet.currencies,
+const mapStateToProps = ({ wallet }) => ({
+  currencies: wallet.currencies,
+  expenses: wallet.expenses,
 });
 
 WalletForm.propTypes = {
   dispatch: func.isRequired,
   currencies: arrayOf(string).isRequired,
+  expenses: arrayOf(shape({
+    id: number,
+
+  })).isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);
