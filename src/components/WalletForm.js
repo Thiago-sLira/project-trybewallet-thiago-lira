@@ -23,9 +23,9 @@ class WalletForm extends Component {
     this.setState({
       valueExpenseInput: '',
       descriptionExpenseInput: '',
-      currencySelect: 'USD',
-      methodSelect: 'Dinheiro',
-      tagSelect: 'Alimentação',
+      // currencySelect: 'USD',
+      // methodSelect: 'Dinheiro',
+      // tagSelect: 'Alimentação',
     });
   };
 
@@ -45,7 +45,7 @@ class WalletForm extends Component {
 
   getCurrencyValueSelect = (currency, quotationsJson) => {
     const quotationsJsonArray = Object.values(quotationsJson);
-    return quotationsJsonArray.find(({ code }) => code === currency).bid;
+    return quotationsJsonArray.find(({ code }) => code === currency).ask;
   };
 
   buildingNewExpense = async (expenses) => {
