@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { func, arrayOf, string, shape, number } from 'prop-types';
 import { connect } from 'react-redux';
-import { receiveCurrencies } from '../redux/actions/index';
+import { receiveCurrencies, receiveNewExpense } from '../redux/actions/index';
 
 class WalletForm extends Component {
   state = {
-    valueExpenseInput: '55',
-    descriptionExpenseInput: 'Funcionando',
+    valueExpenseInput: '',
+    descriptionExpenseInput: '',
     currencySelect: 'USD',
     methodSelect: 'Dinheiro',
     tagSelect: 'Alimentação',
@@ -19,11 +19,14 @@ class WalletForm extends Component {
     dispatch(receiveCurrencies(arrayJson));
   }
 
-  getQuotaionsExchangesAPI = async () => {
-    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
-    const json = await response.json();
-    delete json.USDT;
-    return json;
+  cleaningTheFields = () => {
+    this.setState({
+      valueExpenseInput: '',
+      descriptionExpenseInput: '',
+      currencySelect: 'USD',
+      methodSelect: 'Dinheiro',
+      tagSelect: 'Alimentação',
+    });
   };
 
   handleChange = ({ target }) => {
@@ -31,6 +34,13 @@ class WalletForm extends Component {
     this.setState({
       [name]: value,
     });
+  };
+
+  getQuotaionsExchangesAPI = async () => {
+    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const json = await response.json();
+    delete json.USDT;
+    return json;
   };
 
   getCurrencyValueSelect = (currency, quotationsJson) => {
@@ -46,7 +56,7 @@ class WalletForm extends Component {
     const currencyValue = this.getCurrencyValueSelect(currencySelect, quotationsJson);
 
     return ({
-      id: expenses.length === 0 ? 0 : expenses[expenses.length - 1] + 1,
+      id: expenses.length === 0 ? 0 : expenses[expenses.length - 1].id + 1,
       value: valueExpenseInput,
       description: descriptionExpenseInput,
       currency: currencyValue,
@@ -59,7 +69,9 @@ class WalletForm extends Component {
   handleFormExpenseButtonClick = async () => {
     const { dispatch, expenses } = this.props;
     const newExpense = await this.buildingNewExpense(expenses);
-    console.log(newExpense, expenses);
+    console.log([...expenses, newExpense]);
+    dispatch(receiveNewExpense([...expenses, newExpense]));
+    this.cleaningTheFields();
   };
 
   render() {
