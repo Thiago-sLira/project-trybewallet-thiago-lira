@@ -57,7 +57,7 @@ class WalletForm extends Component {
 
     return ({
       id: expenses.length === 0 ? 0 : expenses[expenses.length - 1].id + 1,
-      value: valueExpenseInput,
+      value: Number(valueExpenseInput),
       description: descriptionExpenseInput,
       currency: currencyValue,
       method: methodSelect,
@@ -69,7 +69,6 @@ class WalletForm extends Component {
   handleFormExpenseButtonClick = async () => {
     const { dispatch, expenses } = this.props;
     const newExpense = await this.buildingNewExpense(expenses);
-    console.log([...expenses, newExpense]);
     dispatch(receiveNewExpense([...expenses, newExpense]));
     this.cleaningTheFields();
   };
@@ -172,7 +171,12 @@ WalletForm.propTypes = {
   currencies: arrayOf(string).isRequired,
   expenses: arrayOf(shape({
     id: number,
-
+    value: number,
+    description: string,
+    currency: string,
+    method: string,
+    tag: string,
+    exchangesRates: shape({}),
   })).isRequired,
 };
 

@@ -18,8 +18,9 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (globalState) => ({
-  userEmail: globalState.user.email,
+const mapStateToProps = ({ user, wallet }) => ({
+  userEmail: user.email,
+  currencies: wallet.currencies,
 });
 
 Header.propTypes = {
