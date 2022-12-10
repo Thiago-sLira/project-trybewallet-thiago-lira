@@ -45,20 +45,11 @@ class WalletForm extends Component {
     return json;
   };
 
-  getCurrencyValueSelect = (currency, quotationsJson) => {
-    const quotationsJsonArray = Object.values(quotationsJson);
-    return quotationsJsonArray.find(({ code }) => code === currency).ask;
-  };
-
   buildingNewExpense = async (expenses) => {
     const { valueExpenseInput, descriptionExpenseInput,
       currencySelect, methodSelect, tagSelect } = this.state;
 
     const quotationsJson = await this.getQuotaionsExchangesAPI();
-    const currencyValue = this.getCurrencyValueSelect(currencySelect, quotationsJson);
-    const valueExpendExchanged = (
-      Math.round((Number(valueExpenseInput * currencyValue)) * 100) / 100).toFixed(2)
-      .toString();
 
     return ({
       value: valueExpenseInput,
