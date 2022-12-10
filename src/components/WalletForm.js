@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { func, arrayOf, string, shape, number } from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  receiveCurrencies, receiveNewExpense, receiveTotalExpenseValue,
+  receiveCurrencies, receiveNewExpense,
 } from '../redux/actions/index';
 
 class WalletForm extends Component {
@@ -56,10 +56,11 @@ class WalletForm extends Component {
 
     const quotationsJson = await this.getQuotaionsExchangesAPI();
     const currencyValue = this.getCurrencyValueSelect(currencySelect, quotationsJson);
+    const valueExpendExchanged = Number(valueExpenseInput * currencyValue);
 
     return ({
       id: expenses.length === 0 ? 0 : expenses[expenses.length - 1].id + 1,
-      value: Number(valueExpenseInput),
+      value: valueExpendExchanged.toString(),
       description: descriptionExpenseInput,
       currency: currencyValue,
       method: methodSelect,
@@ -68,19 +69,10 @@ class WalletForm extends Component {
     });
   };
 
-  updateTotalExpenses = (expenses, dispatch) => {
-    const initialValue = 0;
-    const sumTotalExpenses = expenses.reduce((acumulator, currentValue) => (
-      acumulator + currentValue.value
-    ), initialValue).toFixed(2);
-    dispatch(receiveTotalExpenseValue(Number(sumTotalExpenses)));
-  };
-
   handleFormExpenseButtonClick = async () => {
     const { dispatch, expenses } = this.props;
     const newExpense = await this.buildingNewExpense(expenses);
     dispatch(receiveNewExpense([...expenses, newExpense]));
-    this.updateTotalExpenses([...expenses, newExpense], dispatch);
     this.cleaningTheFields();
   };
 
@@ -182,7 +174,7 @@ WalletForm.propTypes = {
   currencies: arrayOf(string).isRequired,
   expenses: arrayOf(shape({
     id: number,
-    value: number,
+    value: string,
     description: string,
     currency: string,
     method: string,
