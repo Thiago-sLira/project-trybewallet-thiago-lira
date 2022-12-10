@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { func, arrayOf, string, shape, number } from 'prop-types';
 import { connect } from 'react-redux';
-import { receiveCurrencies, receiveNewExpense } from '../redux/actions/index';
+import {
+  receiveCurrencies, receiveNewExpense, receiveTotalExpenseValue,
+} from '../redux/actions/index';
 
 class WalletForm extends Component {
   state = {
@@ -66,10 +68,19 @@ class WalletForm extends Component {
     });
   };
 
+  updateTotalExpenses = (expenses, dispatch) => {
+    const initialValue = 0;
+    const sumTotalExpenses = expenses.reduce((acumulator, currentValue) => (
+      acumulator + currentValue.value
+    ), initialValue).toFixed(2);
+    dispatch(receiveTotalExpenseValue(Number(sumTotalExpenses)));
+  };
+
   handleFormExpenseButtonClick = async () => {
     const { dispatch, expenses } = this.props;
     const newExpense = await this.buildingNewExpense(expenses);
     dispatch(receiveNewExpense([...expenses, newExpense]));
+    this.updateTotalExpenses([...expenses, newExpense], dispatch);
     this.cleaningTheFields();
   };
 
