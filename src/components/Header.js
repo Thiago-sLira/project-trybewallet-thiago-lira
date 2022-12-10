@@ -12,9 +12,14 @@ class Header extends Component {
     const { dispatch, expenses } = this.props;
 
     const initialValue = 0;
-    const sumTotalExpenses = expenses.reduce((acumulator, currentValue) => (
-      acumulator + Number(currentValue.value)
-    ), initialValue);
+    const sumTotalExpenses = expenses.reduce((totalExpense, {
+      currency, exchangeRates, value,
+    }) => {
+      const currentCurrency = currency;
+      const expenseRates = exchangeRates[currentCurrency].ask;
+      const valueExchangeCurrency = Number(expenseRates * value);
+      return totalExpense + valueExchangeCurrency;
+    }, initialValue);
 
     dispatch(receiveTotalExpenseValue(
       (Math.round(sumTotalExpenses * 100) / 100).toFixed(2),

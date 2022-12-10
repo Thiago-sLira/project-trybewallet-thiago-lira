@@ -7,7 +7,7 @@ import {
 
 class WalletForm extends Component {
   state = {
-    valueExpenseInput: '',
+    valueExpenseInput: '0.00',
     descriptionExpenseInput: '',
     currencySelect: 'USD',
     methodSelect: 'Dinheiro',
@@ -56,16 +56,18 @@ class WalletForm extends Component {
 
     const quotationsJson = await this.getQuotaionsExchangesAPI();
     const currencyValue = this.getCurrencyValueSelect(currencySelect, quotationsJson);
-    const valueExpendExchanged = Number(valueExpenseInput * currencyValue);
+    const valueExpendExchanged = (
+      Math.round((Number(valueExpenseInput * currencyValue)) * 100) / 100).toFixed(2)
+      .toString();
 
     return ({
-      id: expenses.length === 0 ? 0 : expenses[expenses.length - 1].id + 1,
-      value: valueExpendExchanged.toString(),
-      description: descriptionExpenseInput,
-      currency: currencyValue,
+      value: valueExpenseInput,
+      currency: currencySelect,
       method: methodSelect,
       tag: tagSelect,
-      exchangesRates: quotationsJson,
+      description: descriptionExpenseInput,
+      id: expenses.length === 0 ? 0 : expenses[expenses.length - 1].id + 1,
+      exchangeRates: quotationsJson,
     });
   };
 
