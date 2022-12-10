@@ -6,12 +6,34 @@ class Table extends Component {
   render() {
     const { expenses } = this.props;
     return (
-      <div>Table</div>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tfoot>
+            {expenses.map(({ exchangeRates, currency, value }) => {
+              const expenseRate = exchangeRates[currency].ask;
+              const valueExchangeCurrency = Number(expenseRate * value);
+            })}
+          </tfoot>
+        </table>
+      </section>
     );
   }
 }
 
-const mapStateToProps = ({ expenses }) => ({
+const mapStateToProps = ({ wallet: { expenses } }) => ({
   expenses,
 });
 

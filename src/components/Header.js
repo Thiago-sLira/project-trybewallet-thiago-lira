@@ -15,9 +15,8 @@ class Header extends Component {
     const sumTotalExpenses = expenses.reduce((totalExpense, {
       currency, exchangeRates, value,
     }) => {
-      const currentCurrency = currency;
-      const expenseRates = exchangeRates[currentCurrency].ask;
-      const valueExchangeCurrency = Number(expenseRates * value);
+      const expenseRate = exchangeRates[currency].ask;
+      const valueExchangeCurrency = Number(expenseRate * value);
       return totalExpense + valueExchangeCurrency;
     }, initialValue);
 
