@@ -14,7 +14,7 @@ export const receiveCurrencies = (currency) => ({
   payload: currency,
 });
 
-export const receiveNewExpense = (newExpense) => ({
+export const receiveExpenses = (newExpense) => ({
   type: RECEIVE_NEW_EXPENSE,
   payload: newExpense,
 });

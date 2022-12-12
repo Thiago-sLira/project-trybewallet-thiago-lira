@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { arrayOf, string, shape, number } from 'prop-types';
+import { arrayOf, string, shape, number, func } from 'prop-types';
 import { connect } from 'react-redux';
+import { receiveExpenses } from '../redux/actions';
 
 class Table extends Component {
+  handleDeleteExpenseClick = (id) => {
+    const { expenses, dispatch } = this.props;
+    const newExpenses = expenses.filter((expense) => expense.id !== id);
+    dispatch(receiveExpenses(newExpenses));
+  };
+
   render() {
     const { expenses } = this.props;
     return (
@@ -38,6 +45,15 @@ class Table extends Component {
                   <td>{ Number(expenseRate).toFixed(2) }</td>
                   <td>{ valueExchangeCurrency }</td>
                   <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ () => this.handleDeleteExpenseClick(id) }
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -65,6 +81,7 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
+  dispatch: func.isRequired,
   expenses: arrayOf(shape({
     id: number,
     value: string,

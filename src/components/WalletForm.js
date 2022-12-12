@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { func, arrayOf, string, shape, number } from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  receiveCurrencies, receiveNewExpense,
+  receiveCurrencies, receiveExpenses,
 } from '../redux/actions/index';
 
 class WalletForm extends Component {
@@ -65,7 +65,7 @@ class WalletForm extends Component {
   handleFormExpenseButtonClick = async () => {
     const { dispatch, expenses } = this.props;
     const newExpense = await this.buildingNewExpense(expenses);
-    dispatch(receiveNewExpense([...expenses, newExpense]));
+    dispatch(receiveExpenses([...expenses, newExpense]));
     this.cleaningTheFields();
   };
 
