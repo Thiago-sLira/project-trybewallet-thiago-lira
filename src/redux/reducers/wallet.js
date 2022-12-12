@@ -1,6 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
-  RECEIVE_CURRENCIES, RECEIVE_NEW_EXPENSE, RECEIVE_TOTAL_EXPENSE_VALUE,
+  RECEIVE_CURRENCIES, RECEIVE_EXPENSE_EDITED, RECEIVE_ID_EXPENSE_TO_EDIT,
+  RECEIVE_NEW_EXPENSE, RECEIVE_TOTAL_EXPENSE_VALUE,
 } from '../actions/index';
 
 const INITIAL_STATE = {
@@ -24,6 +25,16 @@ const wallet = (state = INITIAL_STATE, action) => {
   case RECEIVE_TOTAL_EXPENSE_VALUE: return {
     ...state,
     totalExpenses: action.payload,
+  };
+  case RECEIVE_ID_EXPENSE_TO_EDIT: return {
+    ...state,
+    idToEdit: action.payload,
+    editor: true,
+  };
+  case RECEIVE_EXPENSE_EDITED: return {
+    ...state,
+    expenses: action.payload,
+    editor: false,
   };
   default: return state;
   }

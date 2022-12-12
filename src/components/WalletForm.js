@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, arrayOf, string, shape, number } from 'prop-types';
+import { func, arrayOf, string, shape, number, bool } from 'prop-types';
 import { connect } from 'react-redux';
 import {
   receiveCurrencies, receiveExpenses,
@@ -12,6 +12,7 @@ class WalletForm extends Component {
     currencySelect: 'USD',
     methodSelect: 'Dinheiro',
     tagSelect: 'Alimentação',
+    editorLocalStateControl: true,
   };
 
   async componentDidMount() {
@@ -21,10 +22,31 @@ class WalletForm extends Component {
     dispatch(receiveCurrencies(arrayJson));
   }
 
+  componentDidUpdate() {
+    this.handleEditExpenseButton();
+  }
+
+  handleEditExpenseButton = () => {
+    const { expenses, idToEdit, editor } = this.props;
+    const { editorLocalStateControl } = this.state;
+    if (editor && editorLocalStateControl) {
+      const expenseSelectedToEdit = expenses.find(({ id }) => id === idToEdit);
+      this.setState({
+        editorLocalStateControl: false,
+        valueExpenseInput: expenseSelectedToEdit.value,
+        descriptionExpenseInput: expenseSelectedToEdit.description,
+        currencySelect: expenseSelectedToEdit.currency,
+        methodSelect: expenseSelectedToEdit.method,
+        tagSelect: expenseSelectedToEdit.tag,
+      });
+    }
+  };
+
   cleaningTheFields = () => {
     this.setState({
       valueExpenseInput: '',
       descriptionExpenseInput: '',
+      editorLocalStateControl: true,
       // currencySelect: 'USD',
       // methodSelect: 'Dinheiro',
       // tagSelect: 'Alimentação',
@@ -63,10 +85,15 @@ class WalletForm extends Component {
   };
 
   handleFormExpenseButtonClick = async () => {
-    const { dispatch, expenses } = this.props;
-    const newExpense = await this.buildingNewExpense(expenses);
-    dispatch(receiveExpenses([...expenses, newExpense]));
-    this.cleaningTheFields();
+    const { dispatch, expenses, editor } = this.props;
+    if (editor) {
+      this.editingExpense();
+      this.cleaningTheFields();
+    } else {
+      const newExpense = await this.buildingNewExpense(expenses);
+      dispatch(receiveExpenses([...expenses, newExpense]));
+      this.cleaningTheFields();
+    }
   };
 
   render() {
@@ -157,14 +184,18 @@ class WalletForm extends Component {
   }
 }
 
-const mapStateToProps = ({ wallet }) => ({
-  currencies: wallet.currencies,
-  expenses: wallet.expenses,
+const mapStateToProps = ({ wallet: { currencies, expenses, idToEdit, editor } }) => ({
+  currencies,
+  expenses,
+  idToEdit,
+  editor,
 });
 
 WalletForm.propTypes = {
   dispatch: func.isRequired,
   currencies: arrayOf(string).isRequired,
+  editor: bool.isRequired,
+  idToEdit: number.isRequired,
   expenses: arrayOf(shape({
     id: number,
     value: string,

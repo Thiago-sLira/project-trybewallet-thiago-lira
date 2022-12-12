@@ -11,14 +11,13 @@ class Header extends Component {
   updateTotalExpenses = () => {
     const { dispatch, expenses } = this.props;
 
-    const initialValue = 0;
     const sumTotalExpenses = expenses.reduce((totalExpense, {
       currency, exchangeRates, value,
     }) => {
       const expenseRate = exchangeRates[currency].ask;
       const valueExchangeCurrency = Number(expenseRate * value);
       return totalExpense + valueExchangeCurrency;
-    }, initialValue);
+    }, 0);
 
     dispatch(receiveTotalExpenseValue(
       (Math.round(sumTotalExpenses * 100) / 100).toFixed(2),
