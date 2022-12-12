@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { func, arrayOf, string, shape, number, bool } from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  receiveCurrencies, receiveExpenses,
+  receiveCurrencies, receiveExpenses, receiveExpensesEdited,
 } from '../redux/actions/index';
 
 class WalletForm extends Component {
@@ -84,14 +84,33 @@ class WalletForm extends Component {
     });
   };
 
+  buildingExpensesEdited = (expenses, idToEdit) => {
+    const { valueExpenseInput, descriptionExpenseInput,
+      currencySelect, methodSelect, tagSelect } = this.state;
+
+    expenses.forEach((expense) => {
+      if (expense.id === idToEdit) {
+        expense.value = valueExpenseInput;
+        expense.currency = currencySelect;
+        expense.method = methodSelect;
+        expense.tag = tagSelect;
+        expense.description = descriptionExpenseInput;
+      }
+    });
+
+    return expenses;
+  };
+
   handleFormExpenseButtonClick = async () => {
-    const { dispatch, expenses, editor } = this.props;
+    const { dispatch, expenses, editor, idToEdit } = this.props;
+
     if (editor) {
-      this.editingExpense();
+      const newExpenses = this.buildingExpensesEdited(expenses, idToEdit);
+      dispatch(receiveExpensesEdited(newExpenses));
       this.cleaningTheFields();
     } else {
-      const newExpense = await this.buildingNewExpense(expenses);
-      dispatch(receiveExpenses([...expenses, newExpense]));
+      const newExpenses = await this.buildingNewExpense(expenses);
+      dispatch(receiveExpenses([...expenses, newExpenses]));
       this.cleaningTheFields();
     }
   };

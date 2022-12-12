@@ -31,7 +31,7 @@ export const receiveExpenseIdToEdit = (id) => ({
   payload: id,
 });
 
-export const receiveExpenseEdited = (newExpenses) => ({
+export const receiveExpensesEdited = (newExpenses) => ({
   type: RECEIVE_EXPENSE_EDITED,
   payload: newExpenses,
 });
