@@ -21,12 +21,27 @@ class Table extends Component {
               <th>Editar/Excluir</th>
             </tr>
           </thead>
-          <tfoot>
-            {expenses.map(({ exchangeRates, currency, value }) => {
+          <tbody>
+            {expenses.map(({
+              exchangeRates, currency, value, description, id, tag, method,
+            }) => {
               const expenseRate = exchangeRates[currency].ask;
-              const valueExchangeCurrency = Number(expenseRate * value);
+              const valueExchangeCurrency = Number(expenseRate * value).toFixed(2);
+              const nameCurrencyCoin = exchangeRates[currency].name;
+              return (
+                <tr key={ id }>
+                  <td>{ description }</td>
+                  <td>{ tag }</td>
+                  <td>{ method }</td>
+                  <td>{ (Math.round(value * 100) / 100).toFixed(2) }</td>
+                  <td>{ nameCurrencyCoin }</td>
+                  <td>{ Number(expenseRate).toFixed(2) }</td>
+                  <td>{ valueExchangeCurrency }</td>
+                  <td>Real</td>
+                </tr>
+              );
             })}
-          </tfoot>
+          </tbody>
         </table>
       </section>
     );
