@@ -33,7 +33,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   };
   case RECEIVE_EXPENSE_EDITED: return {
     ...state,
-    expenses: action.payload,
+    expenses: [...action.payload],
     editor: false,
   };
   default: return state;

@@ -97,7 +97,6 @@ class WalletForm extends Component {
         expense.description = descriptionExpenseInput;
       }
     });
-
     return expenses;
   };
 
@@ -120,7 +119,7 @@ class WalletForm extends Component {
       valueExpenseInput, descriptionExpenseInput,
       currencySelect, methodSelect, tagSelect,
     } = this.state;
-    const { currencies } = this.props;
+    const { currencies, editor } = this.props;
     return (
       <section>
         <form>
@@ -195,7 +194,7 @@ class WalletForm extends Component {
             type="button"
             onClick={ this.handleFormExpenseButtonClick }
           >
-            Adicionar Despesa
+            { editor ? 'Editar despesa' : 'Adicionar despesa' }
           </button>
         </form>
       </section>
