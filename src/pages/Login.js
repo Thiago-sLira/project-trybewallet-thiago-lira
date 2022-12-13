@@ -39,9 +39,9 @@ class Login extends Component {
 
     dispatch(receiveUserEmail(inputEmail));
 
-    this.setState({ inputEmail: '', inputPassword: '' });
-
     history.push('/carteira');
+
+    this.setState({ inputEmail: '', inputPassword: '' });
   };
 
   render() {

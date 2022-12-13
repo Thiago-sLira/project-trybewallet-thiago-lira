@@ -10,11 +10,11 @@ import store from './redux/store';
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-    <Provider store={ store }>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Provider store={ store }>
         <App />
-      </BrowserRouter>
-    </Provider>,
+      </Provider>
+    </BrowserRouter>,
   );
 
 // If you want your app to work offline and load faster, you can change
