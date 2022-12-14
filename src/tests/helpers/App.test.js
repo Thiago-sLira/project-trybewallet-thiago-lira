@@ -1,6 +1,7 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import App from '../../App';
 import { renderWithRouterAndRedux } from './renderWith';
 import mockData from './mockData';
@@ -91,7 +92,9 @@ describe('Testando o componente Login', () => {
     expect(addExpenseButton).toBeInTheDocument();
   });
   test('se a página Wallet é renderizada corretamente com Table', () => {
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
+    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
+
+    expect(history.location.pathname).toBe('/carteira');
 
     const table = screen.getByRole('table');
     const columnDescription = screen.getByRole('columnheader', { name: /descrição/i });
@@ -115,25 +118,31 @@ describe('Testando o componente Login', () => {
     expect(columnExchageCurrency).toBeInTheDocument();
     expect(columnEditExclude).toBeInTheDocument();
   });
-  test('se ao digitar nos inputs e clicar no botão, uma nova despesa é adicionada', () => {
+
+  test('se ao digitar nos inputs e clicar no botão, uma nova despesa é adicionada', async () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
 
     const inputValue = screen.getByRole('spinbutton', { name: /valor:/i });
     const inputDescription = screen.getByRole('textbox', { name: /descrição:/i });
-    const inputCurrency = screen.getByRole('combobox', { name: /moeda:/i });
+    // const inputCurrency = screen.getByRole('combobox', { name: /moeda:/i });
     const inputMethod = screen.getByRole('combobox', { name: /método de pagamento/i });
     const inputTag = screen.getByRole('combobox', { name: /categoria:/i });
     const addExpenseButton = screen.getByRole('button', { name: /adicionar despesa/i });
 
-    userEvent.type(inputValue, '200');
-    userEvent.type(inputDescription, 'Fazendo os testes da aplicação');
-    // userEvent.selectOptions(inputCurrency, 'EUR');
-    setTimeout(() => { userEvent.selectOptions(inputCurrency, 'EUR'); }, 1000);
-    userEvent.selectOptions(inputMethod, 'Cartão de crédito');
-    userEvent.selectOptions(inputTag, 'Lazer');
+    act(() => {
+      userEvent.type(inputValue, '200');
+      userEvent.type(inputDescription, 'Fazendo os testes da aplicação');
+      // userEvent.selectOptions(inputCurrency, 'LTC');
+      userEvent.selectOptions(inputMethod, 'Cartão de crédito');
+      userEvent.selectOptions(inputTag, 'Lazer');
 
-    userEvent.click(addExpenseButton);
+      userEvent.click(addExpenseButton);
+    });
 
-    expect(screen.getByRole('cell', { name: /fazendo os testes da aplicação/i })).toBeInTheDocument();
+    waitFor(async () => {
+      expect(screen.getByRole('cell', { name: /fazendo os testes da aplicação/i })).toBeInTheDocument();
+    });
+
+    expect(global.fetch).toBeCalledTimes(2);
   });
 });
