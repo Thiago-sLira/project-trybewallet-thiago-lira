@@ -48,7 +48,7 @@ describe('Testando o componente Login', () => {
 
     expect(buttonLogin).not.toBeDisabled();
   });
-  test('se ao clicar no botão com texte e senha, a página é redirecionada para "/carteira"', () => {
+  test.only('se ao clicar no botão com texte e senha, a página é redirecionada para "/carteira"', () => {
     const { history } = renderWithRouterAndRedux(<App />);
 
     const inputEmail = screen.getByRole('textbox');
@@ -59,7 +59,9 @@ describe('Testando o componente Login', () => {
     userEvent.type(inputPassoword, '1234567');
 
     expect(buttonLogin).not.toBeDisabled();
-    userEvent.click(screen.getByRole('button'));
+    act(() => {
+      userEvent.click(screen.getByRole('button'));
+    });
 
     expect(history.location.pathname).toBe('/carteira');
   });
@@ -124,7 +126,6 @@ describe('Testando o componente Login', () => {
 
     const inputValue = screen.getByRole('spinbutton', { name: /valor:/i });
     const inputDescription = screen.getByRole('textbox', { name: /descrição:/i });
-    // const inputCurrency = screen.getByRole('combobox', { name: /moeda:/i });
     const inputMethod = screen.getByRole('combobox', { name: /método de pagamento/i });
     const inputTag = screen.getByRole('combobox', { name: /categoria:/i });
     const addExpenseButton = screen.getByRole('button', { name: /adicionar despesa/i });
@@ -132,17 +133,71 @@ describe('Testando o componente Login', () => {
     act(() => {
       userEvent.type(inputValue, '200');
       userEvent.type(inputDescription, 'Fazendo os testes da aplicação');
-      // userEvent.selectOptions(inputCurrency, 'LTC');
       userEvent.selectOptions(inputMethod, 'Cartão de crédito');
       userEvent.selectOptions(inputTag, 'Lazer');
+
+      userEvent.click(addExpenseButton);
+
+      userEvent.type(inputValue, '50');
+      userEvent.type(inputDescription, 'Nova despesa para testar');
+      userEvent.selectOptions(inputMethod, 'Dinheiro');
+      userEvent.selectOptions(inputTag, 'Transporte');
 
       userEvent.click(addExpenseButton);
     });
 
     waitFor(async () => {
       expect(screen.getByRole('cell', { name: /fazendo os testes da aplicação/i })).toBeInTheDocument();
+      expect(screen.getByRole('cell', { name: /nova despesa para testar/i })).toBeInTheDocument();
     });
 
-    expect(global.fetch).toBeCalledTimes(2);
+    expect(global.fetch).toBeCalledTimes(3);
+  });
+  test('se ao clicar no botão de editar, a despesa é editada', () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
+
+    const inputValue = screen.getByRole('spinbutton', { name: /valor:/i });
+    const inputDescription = screen.getByRole('textbox', { name: /descrição:/i });
+    const addExpenseButton = screen.getByRole('button', { name: /adicionar despesa/i });
+
+    userEvent.type(inputValue, '100');
+    userEvent.type(inputDescription, 'Despesa para teste');
+    userEvent.click(addExpenseButton);
+
+    waitFor(() => {
+      expect(screen.getByRole('cell', { name: /despesa para teste/i })).toBeInTheDocument();
+    });
+
+    const editButton = screen.getByRole('button', { name: /editar/i });
+    userEvent.click(editButton);
+
+    waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Editar despesa' })).toBeInTheDocument();
+    });
+
+    userEvent.type(inputValue, '250');
+    userEvent.click(addExpenseButton);
+
+    expect(screen.getByRole('cell', { name: /250\.00/i })).toBeInTheDocument();
+  });
+  test('se ao clicar no botão de excluir, a despesa é excluída', () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
+
+    const inputValue = screen.getByRole('spinbutton', { name: /valor:/i });
+    const inputDescription = screen.getByRole('textbox', { name: /descrição:/i });
+    const addExpenseButton = screen.getByRole('button', { name: /adicionar despesa/i });
+
+    userEvent.type(inputValue, '100');
+    userEvent.type(inputDescription, 'Despesa para teste');
+    userEvent.click(addExpenseButton);
+
+    waitFor(() => {
+      expect(screen.getByRole('cell', { name: /despesa para teste/i })).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getByRole('button', { name: /excluir/i });
+    userEvent.click(deleteButton);
+
+    expect(screen.queryByRole('cell', { name: /despesa para teste/i })).not.toBeInTheDocument();
   });
 });
