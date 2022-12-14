@@ -48,7 +48,7 @@ describe('Testando o componente Login', () => {
 
     expect(buttonLogin).not.toBeDisabled();
   });
-  test.only('se ao clicar no botão com texte e senha, a página é redirecionada para "/carteira"', () => {
+  test('se ao clicar no botão com texte e senha, a página é redirecionada para "/carteira"', () => {
     const { history } = renderWithRouterAndRedux(<App />);
 
     const inputEmail = screen.getByRole('textbox');
@@ -59,9 +59,7 @@ describe('Testando o componente Login', () => {
     userEvent.type(inputPassoword, '1234567');
 
     expect(buttonLogin).not.toBeDisabled();
-    act(() => {
-      userEvent.click(screen.getByRole('button'));
-    });
+    userEvent.click(screen.getByRole('button'));
 
     expect(history.location.pathname).toBe('/carteira');
   });
@@ -153,7 +151,7 @@ describe('Testando o componente Login', () => {
 
     expect(global.fetch).toBeCalledTimes(3);
   });
-  test('se ao clicar no botão de editar, a despesa é editada', () => {
+  test('se ao clicar no botão de editar, a despesa é editada', async () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
 
     const inputValue = screen.getByRole('spinbutton', { name: /valor:/i });
@@ -164,21 +162,20 @@ describe('Testando o componente Login', () => {
     userEvent.type(inputDescription, 'Despesa para teste');
     userEvent.click(addExpenseButton);
 
-    waitFor(() => {
+    waitFor(async () => {
       expect(screen.getByRole('cell', { name: /despesa para teste/i })).toBeInTheDocument();
+      const editButton = await screen.findByRole('button', { name: /editar/i });
+      userEvent.click(editButton);
+
+      waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Editar despesa' })).toBeInTheDocument();
+      });
+
+      userEvent.type(inputValue, '250');
+      userEvent.click(screen.getByRole('button', { name: /editar despesa/i }));
+
+      expect(await screen.findByRole('cell', { name: /250\.00/i })).toBeInTheDocument();
     });
-
-    const editButton = screen.getByRole('button', { name: /editar/i });
-    userEvent.click(editButton);
-
-    waitFor(() => {
-      expect(screen.getByRole('button', { name: 'Editar despesa' })).toBeInTheDocument();
-    });
-
-    userEvent.type(inputValue, '250');
-    userEvent.click(addExpenseButton);
-
-    expect(screen.getByRole('cell', { name: /250\.00/i })).toBeInTheDocument();
   });
   test('se ao clicar no botão de excluir, a despesa é excluída', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
@@ -193,11 +190,10 @@ describe('Testando o componente Login', () => {
 
     waitFor(() => {
       expect(screen.getByRole('cell', { name: /despesa para teste/i })).toBeInTheDocument();
+      const deleteButton = screen.getByRole('button', { name: /excluir/i });
+      userEvent.click(deleteButton);
+
+      expect(screen.queryByRole('cell', { name: /despesa para teste/i })).not.toBeInTheDocument();
     });
-
-    const deleteButton = screen.getByRole('button', { name: /excluir/i });
-    userEvent.click(deleteButton);
-
-    expect(screen.queryByRole('cell', { name: /despesa para teste/i })).not.toBeInTheDocument();
   });
 });
