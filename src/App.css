@@ -7,21 +7,33 @@
 body {
   background-color: red;
   background-image: url('fotoDeFundo.png');
-  border-radius: 10px;
-  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
-  height: 356px;
-  left: 377px;
+  mix-blend-mode: luminosity;
+  opacity: 1;
   position: absolute;
   text-align: center;
+}
+
+.login-container {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
+  display: flex;
+  height: 356px;
+  justify-content: center;
+  left: 377px;
+  position: absolute;
   top: 201px;
   width: 525px;
 }
 
-.login-container {
-  background-color: white;
-  border-radius: 10px;
-  height: 356px;
-  left: 377px;
-  top: 201px;
-  width: 525px;
+.login-container-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-trybe-title {
+  color: blue;
 }
