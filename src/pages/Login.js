@@ -47,41 +47,39 @@ class Login extends Component {
   render() {
     const { inputEmail, inputPassword, isButtonDisabled } = this.state;
     return (
-      <div>
-        <fieldset>
-          <h1>Trybe</h1>
-          <form>
-            <label htmlFor="input-user-email">
-              <input
-                type="email"
-                id="input-user-email"
-                value={ inputEmail }
-                name="inputEmail"
-                onChange={ this.handleChange }
-                data-testid="email-input"
-                placeholder="Email"
-              />
-            </label>
-            <label htmlFor="input-user-password">
-              <input
-                type="password"
-                id="input-user-password"
-                value={ inputPassword }
-                name="inputPassword"
-                onChange={ this.handleChange }
-                data-testid="password-input"
-                placeholder="Senha"
-              />
-            </label>
-            <button
-              type="button"
-              disabled={ isButtonDisabled }
-              onClick={ this.handleButtonLoginClick }
-            >
-              Entrar
-            </button>
-          </form>
-        </fieldset>
+      <div className="login-container">
+        <h1>Trybe</h1>
+        <form>
+          <label htmlFor="input-user-email">
+            <input
+              type="email"
+              id="input-user-email"
+              value={ inputEmail }
+              name="inputEmail"
+              onChange={ this.handleChange }
+              data-testid="email-input"
+              placeholder="Email"
+            />
+          </label>
+          <label htmlFor="input-user-password">
+            <input
+              type="password"
+              id="input-user-password"
+              value={ inputPassword }
+              name="inputPassword"
+              onChange={ this.handleChange }
+              data-testid="password-input"
+              placeholder="Senha"
+            />
+          </label>
+          <button
+            type="button"
+            disabled={ isButtonDisabled }
+            onClick={ this.handleButtonLoginClick }
+          >
+            Entrar
+          </button>
+        </form>
       </div>
     );
   }
