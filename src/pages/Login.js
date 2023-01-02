@@ -10,13 +10,32 @@ class Login extends Component {
     inputEmail: '',
     inputPassword: '',
     isButtonDisabled: true,
+    emailWarningMessage: false,
+    passwordWarningMessage: false,
   };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
       [name]: value,
-    }, this.handleInputsValidation);
+    }, () => {
+      this.handleInputsValidation();
+    });
+  };
+
+  showValidInputWarning = (verifyPasswordInput, verifyEmailInput) => {
+    const { inputEmail, inputPassword } = this.state;
+
+    if (inputEmail.length !== 0 && !verifyEmailInput) {
+      this.setState({ emailWarningMessage: true });
+    } else {
+      this.setState({ emailWarningMessage: false });
+    }
+    if (inputPassword.length !== 0 && !verifyPasswordInput) {
+      this.setState({ passwordWarningMessage: true });
+    } else {
+      this.setState({ passwordWarningMessage: false });
+    }
   };
 
   handleInputsValidation = () => {
@@ -27,6 +46,7 @@ class Login extends Component {
 
     const verifyPasswordInput = inputPassword.length >= SIX;
 
+    this.showValidInputWarning(verifyPasswordInput, verifyEmailInput);
     if (verifyEmailInput && verifyPasswordInput) {
       this.setState({ isButtonDisabled: false });
     } else {
@@ -46,12 +66,15 @@ class Login extends Component {
   };
 
   render() {
-    const { inputEmail, inputPassword, isButtonDisabled } = this.state;
+    const {
+      inputEmail, inputPassword, isButtonDisabled,
+      emailWarningMessage, passwordWarningMessage,
+    } = this.state;
     return (
-      <div className="login-container">
-        <div>
-          <h1 className="login-trybe-title">Trybe Wallet</h1>
-          <form className="login-container-form">
+      <main>
+        <h1>Trybe Wallet</h1>
+        <form>
+          <fieldset>
             <label htmlFor="input-user-email">
               <input
                 type="email"
@@ -62,7 +85,10 @@ class Login extends Component {
                 data-testid="email-input"
                 placeholder="Email"
               />
+              { emailWarningMessage && (<small>Digite um email válido</small>) }
             </label>
+          </fieldset>
+          <fieldset>
             <label htmlFor="input-user-password">
               <input
                 type="password"
@@ -73,18 +99,18 @@ class Login extends Component {
                 data-testid="password-input"
                 placeholder="Senha"
               />
+              { passwordWarningMessage && (<small>Digite uma senha válida</small>) }
             </label>
-            <button
-              type="button"
-              disabled={ isButtonDisabled }
-              onClick={ this.handleButtonLoginClick }
-              className="login-button"
-            >
-              Entrar
-            </button>
-          </form>
-        </div>
-      </div>
+          </fieldset>
+          <button
+            type="button"
+            disabled={ isButtonDisabled }
+            onClick={ this.handleButtonLoginClick }
+          >
+            Entrar
+          </button>
+        </form>
+      </main>
     );
   }
 }

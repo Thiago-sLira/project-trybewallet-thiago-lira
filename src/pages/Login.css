@@ -1,1 +1,53 @@
+main {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
+  display: flex;
+  flex-direction: column;
+  padding: 100px 160px;
+  width: 525px;
+}
 
+form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  color: blue;
+  margin-bottom: 10px;
+}
+
+input {
+  background: white;
+  border: 1px solid #003be5;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 40px;
+  left: 475px;
+  top: 360px;
+  width: 330px;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+button {
+  background: #003be5;
+  border: 1px solid #003be5;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: white;
+  font-size: 14;
+  font-weight: 700;
+  height: 40px;
+  left: 475px;
+  top: 460px;
+  width: 330px;
+}

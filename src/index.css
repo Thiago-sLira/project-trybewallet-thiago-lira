@@ -1,44 +1,8 @@
 body {
+  align-items: center;
   background-color: green;
   background-image: url('fotoDeFundo.png');
-  opacity: 1;
-  position: absolute;
-  text-align: center;
-}
-
-.login-container {
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
   display: flex;
-  height: 356px;
+  font-family: 'Epilogue', Tahoma, Verdana, sans-serif;
   justify-content: center;
-  left: 377px;
-  position: absolute;
-  top: 201px;
-  width: 525px;
-}
-
-.login-container-form {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.login-trybe-title {
-  color: blue;
-}
-
-.login-button {
-  background: #003be5;
-  border: 1px solid #003be5;
-  border-radius: 5px;
-  box-sizing: border-box;
-  color: white;
-  height: 40px;
-  left: 475px;
-  top: 460px;
-  width: 330px;
 }
