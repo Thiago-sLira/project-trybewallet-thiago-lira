@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
 import { receiveUserEmail } from '../redux/actions/index';
+import './Login.css';
 
 const SIX = 6;
 class Login extends Component {
@@ -81,7 +82,6 @@ class Login extends Component {
             >
               Entrar
             </button>
-            <button type="button" disabled>teste</button>
           </form>
         </div>
       </div>
