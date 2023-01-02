@@ -1,13 +1,6 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  background-color: red;
+  background-color: green;
   background-image: url('fotoDeFundo.png');
-  mix-blend-mode: luminosity;
   opacity: 1;
   position: absolute;
   text-align: center;
@@ -37,3 +30,18 @@ body {
 .login-trybe-title {
   color: blue;
 }
+
+/* .login-button {
+  box-sizing: border-box;
+
+
+width: 330px;
+height: 40px;
+left: 475px;
+top: 460px;
+
+background: #003BE5;
+border: 1px solid #003BE5;
+border-radius: 5px;
+color: white;
+} */

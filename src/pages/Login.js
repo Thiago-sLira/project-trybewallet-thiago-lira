@@ -77,9 +77,11 @@ class Login extends Component {
               type="button"
               disabled={ isButtonDisabled }
               onClick={ this.handleButtonLoginClick }
+              className="login-button"
             >
               Entrar
             </button>
+            <button type="button" disabled>teste</button>
           </form>
         </div>
       </div>
