@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, arrayOf, func, shape } from 'prop-types';
-import { FaWallet } from 'react-icons/fa';
+import { FaUserAlt, FaWallet } from 'react-icons/fa';
 import { GiTwoCoins } from 'react-icons/gi';
 import { receiveTotalExpenseValue } from '../redux/actions';
 import './Header.css';
@@ -40,7 +40,10 @@ class Header extends Component {
           <GiTwoCoins />
           { `Total de despesas: ${totalExpenses} BRL` }
         </h3>
-        <h4 data-testid="email-field">{ `email: ${userEmail}` }</h4>
+        <h4 data-testid="email-field">
+          <FaUserAlt />
+          { `email: ${userEmail}` }
+        </h4>
       </header>
     );
   }

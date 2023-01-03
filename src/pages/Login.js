@@ -90,6 +90,7 @@ class Login extends Component {
                 onChange={ this.handleChange }
                 data-testid="email-input"
                 placeholder="Email"
+                className="input-login"
               />
               { emailWarningMessage && (<small>Digite um email válido</small>) }
             </label>
@@ -104,6 +105,7 @@ class Login extends Component {
                 onChange={ this.handleChange }
                 data-testid="password-input"
                 placeholder="Senha"
+                className="input-login"
               />
               { passwordWarningMessage && (<small>Digite uma senha válida</small>) }
             </label>
@@ -112,6 +114,7 @@ class Login extends Component {
             type="button"
             disabled={ isButtonDisabled }
             onClick={ this.handleButtonLoginClick }
+            className="button-login"
           >
             Entrar
           </button>

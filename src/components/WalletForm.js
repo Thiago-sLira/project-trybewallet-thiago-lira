@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { func, arrayOf, string, shape, number, bool } from 'prop-types';
 import { connect } from 'react-redux';
+import './WalletForm.css';
 import {
   receiveCurrencies, receiveExpenses, receiveExpensesEdited,
 } from '../redux/actions/index';
