@@ -1,5 +1,6 @@
 aside {
   background-color: aliceblue;
   display: flex;
-  justify-content: space-around;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
 }
