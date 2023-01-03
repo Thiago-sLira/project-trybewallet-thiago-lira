@@ -1,0 +1,19 @@
+header {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
+  display: flex;
+  height: 70px;
+  justify-content: space-around;
+}
+
+h3 {
+  color: blue;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+h4 {
+  color: darkgreen;
+}

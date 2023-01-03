@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, arrayOf, func, shape } from 'prop-types';
+import { FaWallet } from 'react-icons/fa';
+import { GiTwoCoins } from 'react-icons/gi';
 import { receiveTotalExpenseValue } from '../redux/actions';
+import './Header.css';
 
 class Header extends Component {
   componentDidUpdate() {
@@ -25,15 +28,19 @@ class Header extends Component {
   };
 
   render() {
-    const exchange = 'BRL';
     const { userEmail, totalExpenses } = this.props;
     return (
       <header>
-        <section>
-          <h5 data-testid="email-field">{ `Email: ${userEmail}` }</h5>
-          <h5 data-testid="total-field">{ `${totalExpenses}` }</h5>
-          <h5 data-testid="header-currency-field">{ `${exchange}` }</h5>
-        </section>
+        <h3>
+          <FaWallet />
+          {' '}
+          Trybe Wallet
+        </h3>
+        <h3 data-testid="total-field">
+          <GiTwoCoins />
+          { `Total de despesas: ${totalExpenses} BRL` }
+        </h3>
+        <h4 data-testid="email-field">{ `email: ${userEmail}` }</h4>
       </header>
     );
   }

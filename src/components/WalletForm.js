@@ -121,7 +121,7 @@ class WalletForm extends Component {
     } = this.state;
     const { currencies, editor } = this.props;
     return (
-      <section>
+      <aside>
         <form>
           <label htmlFor="input-value-expense">
             Valor:
@@ -197,7 +197,7 @@ class WalletForm extends Component {
             { editor ? 'Editar despesa' : 'Adicionar despesa' }
           </button>
         </form>
-      </section>
+      </aside>
     );
   }
 }

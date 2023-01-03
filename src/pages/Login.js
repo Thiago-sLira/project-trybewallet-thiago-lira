@@ -76,6 +76,7 @@ class Login extends Component {
         <div className="backgroundImage" />
         <h1>
           <FaWallet />
+          {' '}
           Trybe Wallet
         </h1>
         <form>
