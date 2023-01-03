@@ -1,8 +1,8 @@
 body {
   align-items: center;
-  background-color: green;
-  background-image: url('fotoDeFundo.png');
+  background-color: #2fc18c;
   display: flex;
-  font-family: 'Epilogue', Tahoma, Verdana, sans-serif;
   justify-content: center;
+  opacity: 1;
+  z-index: 0;
 }

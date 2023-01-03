@@ -5,8 +5,27 @@ main {
   box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
   display: flex;
   flex-direction: column;
+  mix-blend-mode: normal;
   padding: 100px 160px;
   width: 525px;
+  z-index: 10;
+}
+
+.backgroundImage {
+  background: url('fotoDeFundo.png') no-repeat;
+  background-size: cover;
+  bottom: 0;
+  height: 100vh;
+  left: 0;
+  mix-blend-mode: luminosity;
+  opacity: 0.5;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  user-select: none;
+  width: 100vw;
+  z-index: 1;
 }
 
 form {
@@ -18,7 +37,11 @@ form {
 
 h1 {
   color: blue;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
   margin-bottom: 10px;
+  width: 250px;
 }
 
 input {
@@ -42,12 +65,18 @@ button {
   background: #003be5;
   border: 1px solid #003be5;
   border-radius: 5px;
+  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
   box-sizing: border-box;
   color: white;
+  cursor: pointer;
   font-size: 14;
   font-weight: 700;
   height: 40px;
   left: 475px;
   top: 460px;
   width: 330px;
+}
+
+small {
+  color: red;
 }

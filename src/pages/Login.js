@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
+import { FaWallet } from 'react-icons/fa';
 import { receiveUserEmail } from '../redux/actions/index';
 import './Login.css';
 
@@ -41,7 +42,7 @@ class Login extends Component {
   handleInputsValidation = () => {
     const { inputEmail, inputPassword } = this.state;
 
-    const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+    const emailRegex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;
     const verifyEmailInput = emailRegex.test(inputEmail);
 
     const verifyPasswordInput = inputPassword.length >= SIX;
@@ -72,7 +73,11 @@ class Login extends Component {
     } = this.state;
     return (
       <main>
-        <h1>Trybe Wallet</h1>
+        <div className="backgroundImage" />
+        <h1>
+          <FaWallet />
+          Trybe Wallet
+        </h1>
         <form>
           <fieldset>
             <label htmlFor="input-user-email">
